@@ -16,7 +16,7 @@ def sig_and_pubkey_size(lam, q, m, n, r, k, z, t, w):
     """
     
     # Precompute log_2(q) and weight of t when written in binary
-    log2_q = math.log2(q)
+    log2_z = math.log2(z)
     wt_t = bin(t).count('1')
             
     # Objective function components
@@ -27,13 +27,18 @@ def sig_and_pubkey_size(lam, q, m, n, r, k, z, t, w):
     seed_tree = 3 * lam * math.floor(tree_inner)
             
     # b=0 challenge (i not in I)
-    resp_notin_I = (t - w) * (2 * lam + (m*n*log2_q + m*n*log2_z))
+    resp_notin_I = (t - w) * (2 * lam + (m*n*math.log2(q) + m*n*log2_z))
             
-    # Total Size
+    # Total size
     sig_size = c0_c1_y_salt + seed_tree + resp_notin_I 
-    pubkey_size = lam + m*(n - k)*log2_q
 
-    print(f"Signature Size = {sig_size / 8000:.2f} kB, Public Key Size = {pubkey_size / 8:.2f} B")
+    # Public key computation
+    pubkey_size = lam + m*(n - k)*math.log2(q)
+
+    # Private key computation
+    privkey_size =  m*n*math.log2(q)
+
+    print(f"Signature Size = {sig_size / 8000:.2f} kB, Public Key Size = {pubkey_size / 8:.2f} B, Private Key Size = {privkey_size / 8:.2f} B")
 
 
 # ==========================================
