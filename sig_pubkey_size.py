@@ -27,18 +27,15 @@ def sig_and_pubkey_size(lam, q, m, n, r, k, z, t, w):
     seed_tree = 3 * lam * math.floor(tree_inner)
             
     # b=0 challenge (i not in I)
-    resp_notin_I = (t - w) * (2 * lam + (m*n*log2_q + m*n*log2_z)
-            
-    # b=1 challenge (i in I)
-    resp_in_I = w * (k * log2_q)
+    resp_notin_I = (t - w) * (2 * lam + (m*n*log2_q + m*n*log2_z))
             
     # Total Size
-    sig_size = c0_c1_y_salt + seed_tree + resp_notin_I + resp_in_I
-    pubkey_size = lam + (m*n - k)*log2_q
+    sig_size = c0_c1_y_salt + seed_tree + resp_notin_I 
+    pubkey_size = lam + m*(n - k)*log2_q
 
     print(f"Signature Size = {sig_size / 8000:.2f} kB, Public Key Size = {pubkey_size / 8:.2f} B")
 
 
 # ==========================================
 
-sig_and_pubkey_size(lam=256, q=127, m=10, n=10, r=5, k=9, z=7, t=152, w=108)
+sig_and_pubkey_size(lam=128, q=127, m=10, n=10, r=5, k=9, z=7, t=152, w=108)
